@@ -1,0 +1,16 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+environment:
+  DOCKER_USER:
+    secure: O+dXPgtXYGYx7vrPzlxkiQ==
+  DOCKER_PASS:
+    secure: WLKyoMsT1X92UkhURWeAo+AFkuccd+75uIhKO19RWDzIQ2bCMcWjFjjSA6dWgOWe
+install:
+  - docker version
+
+build_script:
+  - ps: .\build.ps1
+
+deploy_script:
+  - ps: .\deploy.ps1
