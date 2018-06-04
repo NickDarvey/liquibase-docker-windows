@@ -33,14 +33,20 @@
 #     throw $Error.Exception[-1]
 # }
 
-if(Test-Path .\Invoke-PreMigrationInitialization.ps1) {
-    .\Invoke-PreMigrationInitialization.ps1
+Import-Module SqlServer
+
+if($env:LIQUIBASE_PREMIGRATION_INIT -ne [string]::Empty -and `
+   $env:LIQUIBASE_PREMIGRATION_INIT -ne $null -and `
+  (Test-Path $env:LIQUIBASE_PREMIGRATION_INIT)) {
+    & $env:LIQUIBASE_PREMIGRATION_INIT
 }
 
 & cmd /c liquibase.bat $args
 
-if(Test-Path .\Invoke-PostMigrationInitialization.ps1) {
-    .\Invoke-PostMigrationInitialization.ps1
+if($env:LIQUIBASE_POSTMIGRATION_INIT -ne [string]::Empty -and `
+   $env:LIQUIBASE_POSTMIGRATION_INIT -ne $null -and `
+  (Test-Path $env:LIQUIBASE_POSTMIGRATION_INIT)) {
+    & $env:LIQUIBASE_POSTMIGRATION_INIT
 }
 
 if($LASTEXITCODE -ne 0) {
